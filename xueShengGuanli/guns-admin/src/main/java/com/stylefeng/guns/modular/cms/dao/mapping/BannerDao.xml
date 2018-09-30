@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.cms.dao.BannerDao">
+
+    <select id="getBanner" resultType="map">
+        SELECT
+        b.id,
+        u.id authorId,
+        u.name author,
+        b.title,
+        b.image,
+        b.link,
+        b.create_time createTime,
+        b.update_time updateTime,
+        b.weight
+        FROM banner b INNER JOIN `user` u ON b.author_id = u.id
+        <if test='title != null and title !=""'>
+            <bind name="title" value="'%'+title+'%'"/>
+            WHERE b.title like #{title}
+        </if>
+        order by b.weight desc, b.create_time desc
+    </select>
+
+    <insert id="insertBanner" useGeneratedKeys="true" keyProperty="b.id">
+        INSERT INTO banner
+        (author_id, title, image, link, weight)
+        VALUES (#{b.authorId}, #{b.title}, #{b.image}, #{b.link}, #{b.weight});
+    </insert>
+
+</mapper>

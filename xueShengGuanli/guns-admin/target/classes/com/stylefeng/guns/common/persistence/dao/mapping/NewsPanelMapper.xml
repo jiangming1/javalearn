@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.common.persistence.dao.NewsPanelMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.common.persistence.model.NewsPanel">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="english_name" property="englishName"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="weight" property="weight"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, english_name AS englishName, category_id AS categoryId, weight
+    </sql>
+
+</mapper>

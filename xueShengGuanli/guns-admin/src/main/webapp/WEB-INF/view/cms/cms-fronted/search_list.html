@@ -1,0 +1,109 @@
+@include("/common/_cms-header.html"){}
+
+<div class="wrap-box">
+    <div class="cat-banner-box" style="background:url(${ctxPath}/static/img/cat-banner.png) no-repeat center center;">
+        &nbsp;
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-9" style="float:none;margin-left:auto;margin-right: auto;">
+            <div class="article-box clearfix">
+                <p class="text-rightorleft nav-link-line mt-20 mb-40">
+                    @if(!isMobile){
+                    <span class="pull-left" style="font-size: 24px;">站内搜索</span>
+                    @}
+                    <span class="c-gray3">当前位置：</span>
+                    <a href='${ctxPath}' class="c-gray3">首页</a>&gt;
+                    <a href='${ctxPath}/search/${content}/1' class="c-gray3">搜索</a>
+                </p>
+                <section class="list-info-box">
+                    <div class="row list-title display-none-title-date">
+                        <div class="col-md-10">
+                            <span style="margin-left:5px;">标题</span>
+                        </div>
+                        <div class="col-md-2">
+                            <span>日期</span>
+                        </div>
+                    </div>
+                    <section class="section-title mb-15"></section>
+
+
+                    @for(articleMap in articleList){
+                    <div class="row list-cont-box">
+                        <div class="col-md-10">
+                            <a href="${ctxPath}/${articleMap.category}/article/${myPage.currentPageNum}/${articleMap.id}">${articleMap.title}</a>
+                        </div>
+                        <div class="col-md-2">
+                            <span>${articleMap.createTime, dateFormat="yyyy/MM/dd"}</span>
+                        </div>
+                    </div>
+                    @}
+
+                </section>
+                <section class="section-title"></section>
+                <div class="page-list">
+                    <div class="row">
+                        <div class="col-md-4">
+                            共${myPage.recordTotal}篇/${myPage.pagingTotal}页
+                        </div>
+                        <div class="col-md-8 text-right">
+                            <div class="jogger">
+                                @if(myPage.doPagingSuccess){
+
+                                @if(!isMobile){
+                                @if (myPage.displayPrevPageBtn) {
+                                <a href="/search/${content}/${myPage.prevPageNum}" class="per-page">上一页</a>
+                                @}
+                                @if (myPage.displayFirstPageBtn) {
+                                <a href="/search/${content}/1" class="normal">1</a>
+                                @}
+                                @if (myPage.displayHeadEllipsesBtn) {
+                                <a href="/search/${content}/${myPage.headEllipsesPageNum}" class="more">...</a>
+                                @}
+
+                                @for(pageNum in myPage.pageNumList){
+                                @if (pageNum == myPage.currentPageNum) {
+                                <span class="current">${pageNum}</span>
+                                @}else{
+                                <a href="/search/${content}/${pageNum}" class="normal">${pageNum}</a>
+                                @}
+                                @}
+
+                                @if (myPage.displayTailEllipsesBtn) {
+                                <a href="/search/${content}/${myPage.tailEllipsesPageNum}" class="more">...</a>
+                                @}
+                                @if (myPage.displayLastPageBtn) {
+                                <a href="/search/${content}/${myPage.lastPageNum}" class="normal">${myPage.lastPageNum}</a>
+                                @}
+                                @if (myPage.displayNextPageBtn) {
+                                <a href="/search/${content}/${myPage.nextPageNum}" class="next-page">下一页</a>
+                                @}
+
+                                @}else{
+                                @if (myPage.displayPrevPageBtn) {
+                                <div class="col-xs-6 text-left"><a href="/search/${content}/${myPage.prevPageNum}" class="per-page">&lt;上一页</a></div>
+                                @}else if(myPage.displayNextPageBtn){
+                                <div class="col-xs-12 text-right"><a href="/search/${content}/${myPage.nextPageNum}" class="next-page">下一页&gt;</a></div>
+                                @}
+                                @if (myPage.displayNextPageBtn && myPage.displayPrevPageBtn) {
+                                <div class="col-xs-6 text-right"><a href="/search/${content}/${myPage.nextPageNum}" class="next-page">下一页&gt;</a></div>
+                                @}
+                                @}
+
+                                @}else{
+                                @print("分页错误");
+                                @}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@include("/common/_cms-footer.html"){}

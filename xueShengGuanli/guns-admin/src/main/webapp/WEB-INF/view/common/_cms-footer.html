@@ -1,0 +1,53 @@
+</div>
+</div>
+
+<nav class="navbar navbar-default navbar-top footer clearfix" role="navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-8" style="padding-top:5px;position:static;">
+                <ul class="nav navbar-nav" style="margin: -5px -15px">
+                    <li>
+                        <a style="pointer-events: none"><span class="cp">Copyright &copy; 2017 怀化学院 计算机科学与工程学院　</span>　
+                            <span
+                                    class="ba">通讯地址:
+                        <span>湖南省怀化市鹤城区怀化学院（东校区）计算机楼　邮编: 418000 </span> </span></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-12 col-md-4" style="background:#004d85; position:static">
+                <ul class="nav navbar-nav navbar-link pull-right" style="margin: -5px -15px">
+                    <li>
+                        <a href="" target="_blank">点击量: ${hits}次</a>
+                    </li>
+                    <li>
+                        <a href="tel:0745-2862703" data-toggle="popover" title="" data-trigger="hover"
+                           data-content="0745-2862703" data-original-title="办公室电话">联系我们</a>
+                    </li>
+                    <li>
+                        <a href="http://fuwu.hhtc.edu.cn" target="_blank">阳光服务 </a>
+                    </li>
+                    <li>
+                        <a href="http://zhoujin7.com" target="_blank">技术支持</a>
+                    </li>
+                    <li>
+                        <a href="${ctxPath}/admin" target="_blank">后台登录 </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script>
+    $('[data-toggle="popover"]').popover({
+        container: 'body'
+    });
+    $(document).ready(function () {
+
+        $('[data-toggle="popover"]').popover();
+    });
+</script>
+
+</body>
+
+</html>

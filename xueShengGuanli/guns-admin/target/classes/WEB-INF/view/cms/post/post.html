@@ -1,0 +1,107 @@
+@layout("/common/_container.html"){
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+
+            <input type="hidden" id="currentPageName" value="post">
+            <input type="hidden" id="isAuthor" value="${isAuthor}">
+
+            <div class="ibox-title">
+                <h5>文章管理</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row-lg">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <#NameCon id="title" name="标题" />
+                            </div>
+                            <div class="col-sm-2">
+                                @if(!isAuthor){
+                                <#NameCon id="author" name="作者" />
+                                @}else{
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button data-toggle="dropdown" class="btn btn-white dropdown-toggle"
+                                                type="button">作者
+                                        </button>
+                                    </div>
+                                    <input type="text" class="form-control" id="author" readonly="readonly"
+                                           value="${author}">
+                                </div>
+                                @}
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button data-toggle="dropdown" class="btn btn-white dropdown-toggle"
+                                                type="button" aria-expanded="true">分类
+                                        </button>
+                                    </div>
+                                    <input type="text" class="form-control" id="category" readonly="readonly"
+                                           onclick="PostInfoDlg.showCategorySelectTree('post'); return false;"
+                                           style="background-color: #ffffff !important;">
+                                </div>
+                            </div>
+                            <!--                            <div class="col-sm-2">
+                                                            <#NameCon id="tag" name="标签" />
+                                                        </div>-->
+                            <div class="col-sm-2">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button data-toggle="dropdown" class="btn btn-white dropdown-toggle"
+                                                type="button" aria-expanded="true">状态
+                                        </button>
+                                    </div>
+                                    <input type="text" class="form-control" id="status" readonly="readonly" value=""
+                                           onclick="PostInfoDlg.showStatusSelectTree('post'); return false;"
+                                           style="background-color: #ffffff !important;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 这是状态选择的下拉框 -->
+                        <div id="statusMenuContent" class="menuContent"
+                             style="display: none; position: absolute; z-index: 99999;">
+                            <ul id="statusTreeDemo" class="ztree tree-box" style="width: 100px !important;"></ul>
+                        </div>
+
+                        <!-- 这是分类选择的下拉框 -->
+                        <div id="categoryMenuContent" class="menuContent"
+                             style="display: none; position: absolute; z-index: 99999;">
+                            <ul id="categoryTreeDemo" class="ztree tree-box" style="width: 249px !important;"></ul>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <#TimeCon id="beginTime" name="开始时间" isTime="false" pattern="YYYY-MM-DD" />
+                            </div>
+                            <div class="col-sm-2">
+                                <#TimeCon id="endTime" name="结束时间" isTime="false" pattern="YYYY-MM-DD" />
+                            </div>
+                            <div class="col-sm-4">
+                                <#button name="搜索" icon="fa-search" clickFun="Post.search()"/>
+                                <#button name="重置" icon="fa-trash" clickFun="Post.resetSearch()"/>
+                            </div>
+                        </div>
+                        <div class="hidden-xs" id="PostTableToolbar" role="group">
+                            @if(shiro.hasPermission("/post/add")){
+                            <#button name="添加" icon="fa-plus" clickFun="Post.openAddPost()"/>
+                            @}
+                            @if(shiro.hasPermission("/post/update")){
+                            <#button name="修改" icon="fa-edit" clickFun="Post.openPostDetail()" space="true"/>
+                            @}
+                            @if(shiro.hasPermission("/post/trash")){
+                            <#button name="移动到回收站" icon="fa-remove" clickFun="Post.trash()" space="true"/>
+                            @}
+                        </div>
+                        <#table id="PostTable"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/cms/post/post.js"></script>
+<script src="${ctxPath}/static/modular/cms/post/post_info.js"></script>
+@}

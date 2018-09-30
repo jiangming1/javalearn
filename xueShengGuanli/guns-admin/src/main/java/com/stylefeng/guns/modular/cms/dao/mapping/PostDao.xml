@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.cms.dao.PostDao">
+
+    <sql id="BasicColumns">
+        p.id,
+        u.id authorId,
+        u.name author,
+        p.title,
+        p.content,
+        p.create_time createTime,
+        p.update_time updateTime,
+        (
+        CASE WHEN p.status = 'publish'
+        THEN '发布'
+        WHEN p.status = 'draft'
+        THEN '草稿'
+        WHEN p.status = 'trash'
+        THEN '回收'
+        END
+        )      status,
+        p.cover_image coverImage,
+        p.weight
+    </sql>
+
+    <resultMap id="GetPostInfoResultMap" type="map" autoMapping="true">
+        <id column="id" property="id"/>
+        <collection column="{postId=id}" select="getPostCategory" ofType="map" javaType="list"
+                    property="categories" fetchType="eager">
+            <id column="categoryId" property="categoryId"/>
+            <result column="category" property="category"/>
+        </collection>
+        <collection column="{postId=id}" select="getPostTag" ofType="map" javaType="list"
+                    property="tags" fetchType="eager">
+            <id column="tagId" property="tagId"/>
+            <result column="tag" property="tag"/>
+        </collection>
+    </resultMap>
+
+    <sql id="GetBasicPostInfo">
+        SELECT
+        <include refid="BasicColumns"></include>
+        FROM post p INNER JOIN `user` u ON p.author_id = u.id
+        <where>
+            <choose>
+                <when test='p.status == null or p.status ==""'>
+                    and p.status != 'trash'
+                </when>
+                <when test='p.status != null and p.status =="trash"'>
+                    and p.status = 'trash'
+                </when>
+                <otherwise>
+                    and p.status = #{status}
+                </otherwise>
+            </choose>
+        </where>
+    </sql>
+
+    <select id="getPostInfo" resultMap="GetPostInfoResultMap">
+        <include refid="GetBasicPostInfo"></include>
+        order by p.weight desc, p.create_time desc
+    </select>
+
+    <select id="getPostCategory" resultType="map">
+        SELECT cp.category_id categoryId, cp.category from category_post cp WHERE cp.post_id=#{postId}
+    </select>
+
+    <select id="getPostTag" resultType="map">
+        SELECT tp.tag_id tagId, tp.tag from tag_post tp WHERE tp.post_id=#{postId}
+    </select>
+
+    <select id="getPostInfoById" resultMap="GetPostInfoResultMap">
+        SELECT
+        <include refid="BasicColumns"></include>
+        FROM post p INNER JOIN `user` u ON p.author_id = u.id
+        where p.id=#{postId}
+    </select>
+
+    <select id="getPrevPostInfoByCategoryAndId" resultMap="GetPostInfoResultMap">
+        SELECT
+        cp.category,
+        tp.tag,
+        <include refid="BasicColumns"></include>
+        FROM post p INNER JOIN `user` u ON p.author_id = u.id
+        LEFT OUTER JOIN category_post cp ON p.id = cp.post_id
+        LEFT OUTER JOIN tag_post tp ON p.id = tp.post_id
+        WHERE
+        cp.category = #{category} AND p.status = 'publish'
+        AND p.id &lt; #{postId}
+        ORDER BY p.id DESC
+        LIMIT 1
+    </select>
+
+    <select id="getNextPostInfoByCategoryAndId" resultMap="GetPostInfoResultMap">
+        SELECT
+        cp.category,
+        tp.tag,
+        <include refid="BasicColumns"></include>
+        FROM post p INNER JOIN `user` u ON p.author_id = u.id
+        LEFT OUTER JOIN category_post cp ON p.id = cp.post_id
+        LEFT OUTER JOIN tag_post tp ON p.id = tp.post_id
+        WHERE
+        cp.category = #{category} AND p.status = 'publish'
+        AND p.id &gt; #{postId}
+        ORDER BY p.id
+        LIMIT 1
+    </select>
+
+    <resultMap id="GetPostInfoByConditionsResultMap" type="map" autoMapping="true">
+        <id column="id" property="id"/>
+        <collection property="categories" ofType="java.lang.String" javaType="list">
+            <result column="category"/>
+        </collection>
+        <collection property="tags" ofType="java.lang.String" javaType="list">
+            <result column="tag"/>
+        </collection>
+    </resultMap>
+
+    <select id="searchPostInfo" resultMap="GetPostInfoByConditionsResultMap">
+        SELECT
+        cp.category,
+        tp.tag,
+        <include refid="BasicColumns"></include>
+        FROM post p INNER JOIN `user` u ON p.author_id = u.id
+        LEFT OUTER JOIN category_post cp ON p.id=cp.post_id
+        LEFT OUTER JOIN tag_post tp ON p.id=tp.post_id
+        <where>
+            <if test='p.title != null and p.title !=""'>
+                <bind name="title" value="'%'+p.title+'%'"/>
+                and p.title LIKE #{title}
+            </if>
+            <if test='p.author != null and p.author !=""'>
+                <bind name="author" value="'%'+p.author+'%'"/>
+                and u.name LIKE #{author}
+            </if>
+            <if test='p.category != null and p.category !=""'>
+                <bind name="category" value="'%'+p.category+'%'"/>
+                and cp.category like #{category}
+            </if>
+            <if test='p.tag != null and p.tag !=""'>
+                <bind name="tag" value="'%'+p.tag+'%'"/>
+                and tp.tag like #{tag}
+            </if>
+            <if test='p.beginTime != null and p.beginTime !="" and p.endTime != null and p.endTime != ""'>
+                <bind name="beginTime" value="p.beginTime+' 00:00:00'"/>
+                <bind name="endTime" value="p.endTime+' 23:59:59'"/>
+                and p.create_time between #{beginTime} and #{endTime}
+            </if>
+            <choose>
+                <when test='p.status == null or p.status ==""'>
+                    and p.status != 'trash'
+                </when>
+                <when test='p.status != null and p.status =="trash"'>
+                    and p.status = 'trash'
+                </when>
+                <otherwise>
+                    and p.status = #{p.status}
+                </otherwise>
+            </choose>
+        </where>
+
+        order by p.weight desc, p.create_time desc
+    </select>
+
+    <select id="getPostInfoByCategory" resultMap="GetPostInfoByConditionsResultMap">
+        SELECT
+        cp.category,
+        tp.tag,
+        <include refid="BasicColumns"></include>
+        FROM post p INNER JOIN `user` u ON p.author_id = u.id
+        LEFT OUTER JOIN category_post cp ON p.id=cp.post_id
+        LEFT OUTER JOIN tag_post tp ON p.id=tp.post_id
+        <where>
+            <if test='category != null and category !=""'>
+                and cp.category = #{category}
+            </if>
+            and p.status = 'publish'
+        </where>
+        order by p.weight desc, p.create_time desc
+    </select>
+
+    <delete id="unbindPostAndTaxonomy">
+        DELETE FROM taxonomy_post WHERE taxonomy_id IN
+        <foreach item="item" index="index" collection="taxonomyIds"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND post_id=#{postId}
+    </delete>
+
+    <insert id="bindPostAndTaxonomy">
+        INSERT INTO taxonomy_post (taxonomy_id, post_id) VALUES
+        <foreach item="item" index="index" collection="taxonomyIds" separator=",">
+            (#{item},#{postId})
+        </foreach>
+    </insert>
+
+    <insert id="insertPost" useGeneratedKeys="true" keyProperty="p.id">
+        INSERT INTO post
+        (author_id, title, content, status, cover_image, weight)
+        VALUES (#{p.authorId}, #{p.title}, #{p.content}, #{p.status}, #{p.coverImage}, #{p.weight});
+    </insert>
+
+    <delete id="deletePost">
+      DELETE FROM post WHERE id=#{postId};
+      DELETE FROM taxonomy_post WHERE post_id=#{postId};
+    </delete>
+
+</mapper>

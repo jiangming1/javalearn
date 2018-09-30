@@ -1,0 +1,562 @@
+@charset "utf-8";
+.mb-0 {
+    margin-bottom: 0;
+}
+
+.mb-40 {
+    margin-bottom: 40px;
+}
+
+.mt-5 {
+    margin-top: 5px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.ptb-20 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.pl-20 {
+    padding-left: 20px;
+}
+
+.pr-40 {
+    padding-right: 40px;
+}
+
+.pb-8 {
+    padding-bottom: 8px;
+}
+
+.carousel-control.left, .carousel-control.right {
+    background: none;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.fs-12 {
+    font-size: 12px;
+}
+
+.fs-14 {
+    font-size: 14px;
+}
+
+.fs-20 {
+    font-size: 20px;
+}
+
+.c-red {
+    color: #ff0e3b;
+}
+
+.c-blue {
+    color: #0096ff;
+}
+
+.c-blue1 {
+    color: #58e5ff;
+}
+
+.c-gray {
+    color: #333333;
+}
+
+.c-gray1 {
+    color: #999999;
+}
+
+.c-gray2 {
+    color: #463b34;
+}
+
+.c-gray3 {
+    color: #666666;
+}
+
+.c-white {
+    color: #ffffff;
+}
+
+.c-green {
+    color: #22ce00;
+}
+
+.bg-blue {
+    background: #004d85;
+    border-top: 1px dashed #fff;
+}
+
+.bg-white {
+    background: #ffffff;
+}
+
+.bor-none {
+    border: none !important;
+}
+
+.bor-bottom-gray {
+    border-bottom: 1px dashed #dddddd;
+}
+
+.no-list-type {
+    margin: 0px;
+    padding: 0px;
+}
+
+.no-list-type li {
+    list-style-type: none;
+}
+
+.header-box img.logo {
+    margin-top: 42px;
+    margin-left: 39px;
+}
+
+.header-box img {
+    margin-top: 42px;
+}
+
+.section1 {
+    border-top: 2px solid #ff4f70; /* float:left; */
+    margin: 0 20px 15px 20px;
+    height: 235px;
+    overflow: hidden;
+}
+
+.edu-tec {
+    height: 210px;
+    margin-top: 10px;
+}
+
+.section1 p {
+    font-size: 14px;
+    color: #191717;
+    margin-top: 10px;
+    line-height: 1.5em;
+    text-align: left;
+    text-indent: 2em;
+}
+
+.aside1 {
+    margin-right: 20px;
+}
+
+.section2 {
+    border-top: 2px solid #ffa800;
+    background: #ececec;
+}
+
+.notice-date-left {
+    width: 60px;
+    margin-right: 17px;
+}
+
+.notice-date-left p {
+    line-height: 30px;
+}
+
+.btn-notice {
+    display: block;
+    line-height: 30px;
+    color: #0096ff;
+}
+
+.notice-date {
+    padding: 11px 25px 6px 20px;
+    border-bottom: 1px solid #dddddd;
+}
+
+.section3 {
+    border-top: 2px solid #0096ff;
+}
+
+.section4 {
+    border-top: 2px solid #22ce00;
+}
+
+.section5 {
+    border-top: 2px solid #00deff;
+}
+
+.contant-box {
+    background: #b34343;
+}
+
+.friendlink-box {
+    background: #eee;
+    height: 260px;
+}
+
+.friendlink-box h3 {
+    font-size: 16px;
+    color: #333333;
+    border-bottom: 1px solid #d1d1d1;
+    padding: 30px 0 25px 0;
+}
+
+.btn-info-linkfriend {
+    font-size: 12px;
+    color: #888888;
+    padding: 10px 25px 10px 10px;
+}
+
+.intro-pic p {
+    font-size: 20px;
+    position: absolute;
+    bottom: 0;
+    height: 55px;
+    line-height: 55px;
+    margin-bottom: 0;
+    width: 260px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    font-weight: bold;
+}
+
+.intro-pic {
+    position: relative;
+    float: left;
+    margin: 45px 30px 0;
+}
+
+/*怀化学院列表*/
+.line {
+    background: #0090ff;
+    height: 70px;
+    line-height: 70px;
+    text-align: center;
+    font-size: 20px;
+    color: #ffffff;
+    border-bottom: 4px solid #ffcc00;
+}
+
+.article1-box p {
+    margin-bottom: 0;
+    color: #666666;
+}
+
+.section-title {
+    border-bottom: 4px solid #0090ff;
+}
+
+.article1-box {
+    margin-top: 40px;
+    margin-bottom: 0px;
+    font-size: 16px;
+    line-height: 2em;
+    min-height: 500px;
+}
+
+.leftsidebar-box {
+    position: absolute;
+    width: 240px;
+    top: -70px;
+}
+
+.leftsidebar-box dl dt a {
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    font-weight: normal;
+    color: #0090ff;
+    background: #fff;
+    display: block;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.leftsidebar-box dl dt a.current {
+    background-color: #eaeaea;
+}
+
+.leftsidebar-box dl dt a:hover {
+    background-color: #f0f0f0;
+}
+
+.leftsidebar-box dl dt {
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    border-bottom: 1px solid #eaeaea;
+    font-weight: normal;
+    color: #0090ff;
+    background: #fff;
+}
+
+.leftsidebar-box dl dd {
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    font-weight: normal;
+    color: #999999;
+    background: #fff;
+}
+
+.sub-list {
+    float: left;
+    width: 95px;
+}
+
+/*分页*/
+.list-info {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.page-list span.disabled {
+    border: #f3f3f3 1px solid;
+    padding: 5px;
+    color: #ccc;
+}
+
+.page-list span.current {
+    border: #ddd 1px solid;
+    padding: 5px;
+    font-weight: bold;
+    color: #fff;
+    background: #0096ff;
+}
+
+section.list-info-box {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    min-height: 600px;
+}
+
+.list-title {
+    margin-left: 0;
+    margin-right: 0;
+    font-size: 18px;
+    color: #a0a0a0;
+    margin-bottom: 10px;
+}
+
+.list-cont-box {
+    border-bottom: 1px dotted #e0e0e0;
+    margin: 10px 5px;
+    padding-bottom: 10px;
+}
+
+/*大图展示*/
+.big-pic-box {
+    min-height: 450px;
+}
+
+a.link-pic-x-123-box {
+    display: block;
+    height: 150px;
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+}
+
+div.jogger {
+    margin: 7px;
+    font-family: "lucida sans unicode", "lucida grande", lucidagrande,
+    "lucida sans", geneva, verdana, sans-serif;
+    padding: 2px;
+}
+
+div.jogger a {
+    margin: 2px;
+    color: #666;
+    padding: 0.5em 0.64em 0.43em;
+    background-color: #fff;
+    text-decoration: none;
+    border: 1px #f0f0f0 solid;
+}
+
+div.jogger a:hover {
+    margin: 2px;
+    color: #fff;
+    padding: 0.5em 0.64em 0.43em;
+    background-color: #0096ff
+}
+
+div.jogger a:active {
+    margin: 2px;
+    color: #fff;
+    padding: 0.5em 0.64em 0.43em;
+    background-color: #0096ff
+}
+
+div.jogger span.current {
+    margin: 2px;
+    color: #fff;
+    padding: 0.5em 0.64em 0.43em;
+    background-color: #0096ff
+}
+
+div.jogger span.disabled {
+    display: none
+}
+
+.page-list {
+    margin: 15px 0px;
+}
+
+.wrap-box .banner-w {
+    width: 100%;
+    padding: 0px;
+}
+
+.section1 a:hover {
+    text-decoration: underline;
+}
+
+.cat-banner-box {
+    overflow: hidden;
+    height: 250px;
+}
+
+.section1 a h4 {
+    font-size: 14px;
+    line-height: 1.5em;
+}
+
+#go-top {
+    position: fixed;
+    text-indent: -9999px;
+    _position: absolute;
+    z-index: 9999999999;
+    width: 50px;
+    height: 50px;
+    bottom: 20px;
+    right: 20px;
+}
+
+.pre-next-record {
+    margin: 15px 0px;
+}
+
+.pics-box {
+    padding: 25px 0px 15px 30px;
+}
+
+.pics-box img {
+    width: 250px;
+    text-align: center;
+    margin: 0px auto;
+}
+
+.section1 img {
+    width: 330px;
+    height: auto !important;
+}
+
+.leftsidebar-box dl {
+    margin-bottom: 0px;
+}
+
+#slidershow {
+    height: 380px;
+}
+
+.pics-box .item {
+    height: 220px;
+}
+
+.carousel-caption {
+    bottom: -30px;
+    text-shadow: 0 0px 0px;
+    color: #999;
+}
+
+.carousel-inner .text {
+    padding: 10px 0;
+    text-align: center;
+    color: #463b34;
+}
+
+.footer-box {
+    height: 170px;
+}
+
+#nav2 {
+    bottom: 75px;
+    left: 0px;
+    position: fixed;
+    z-index: 999999;
+}
+
+#nav3 {
+    position: fixed;
+    bottom: 75px;
+    right: 0;
+    z-index: 99999;
+}
+
+.change {
+    height: 5px;
+    margin: auto;
+    border-bottom: 2px solid #0077cc;
+    border-top: 2px solid #56a0e0;
+    background-color: #ffffff;
+}
+
+.index-page .wrap-box {
+    position: relative;
+    no-repeat: top center !important;
+    background-color: #eee;
+    background-size: 100%;
+}
+
+.index-page .header-box {
+    background: #004d85;
+    margin-left: 0;
+    margin-right: 0;
+    overflow: hidden;
+    border-top: 4px solid #520520;
+}
+
+.index-page .work-box {
+    background-color: #eee;
+    margin-left: 0;
+    margin-right: 0;
+    overflow: hidden;
+    box-shadow: 0px 0px 20px rgba(39, 21, 22, 0.87);
+}
+
+.index-page .contant-box {
+    background-color: hsla(0, 0%, 96%, 1);
+    padding: 20px 15px;
+}
+
+@media (max-width: 768px) {
+    .cat-banner-box {
+        display: none;
+    }
+}
+
+@media (max-width: 1024px) {
+    .display-none-title-date{
+        display: none;
+    }
+}
+
+.text-rightorleft{ text-align:right}
+@media (max-width: 480px){
+    .mb-40 { margin-bottom: 40px; }
+    .mt-20 { margin-top: -40px; }
+    .text-rightorleft{ text-align:left}
+    .nav-link-line{
+        width: 80%;
+    }
+}
+
+.ellip{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

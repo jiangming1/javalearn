@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.cms.dao.NewsPanelDao">
+
+    <sql id="BasicSql">
+      SELECT
+      np.id,
+      np.name,
+      np.english_name englishName,
+      t.name category,
+      np.weight
+      FROM news_panel np
+      LEFT OUTER JOIN taxonomy t ON np.category_id = t.id AND t.type = 'category'
+    </sql>
+
+    <select id="getNewsPanel" resultType="map">
+        <include refid="BasicSql"></include>
+        <if test='name != null and name != ""'>
+            <bind name="name" value="'%'+name+'%'"/>
+            AND t.name like #{name}
+            order by np.weight desc
+        </if>
+    </select>
+
+    <select id="getNewsPanelById" resultType="map">
+        <include refid="BasicSql"></include>
+        <if test='id !=null'>
+            AND np.id = #{id}
+        </if>
+    </select>
+
+</mapper>

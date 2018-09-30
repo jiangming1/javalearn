@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.cms.dao.NavmenuDao">
+
+    <select id="tree" resultType="com.stylefeng.guns.core.node.NavmenuNode">
+        SELECT
+        t.id,
+        th.ancestor_id pId,
+        t.name,
+        t.link,
+        t.weight,
+        'false' isOpen,
+        (SELECT name
+        FROM navmenu
+        WHERE id = pId) parentName
+        FROM navmenu_hierarchy th
+        INNER JOIN navmenu t ON th.descendant_id = t.id
+        WHERE th.depth = 1
+        <if test='descendantName != null and descendantName != ""'>
+            <bind name="descendantName" value="'%'+descendantName+'%'"/>
+            AND t.name like #{descendantName}
+        </if>
+    </select>
+
+    <insert id="addNode" statementType="CALLABLE">
+		{call addNavmenuNode(
+		#{ancestorId, mode=IN},
+		#{descendantName, mode=IN},
+		#{descendantLink, mode=IN},
+		#{descendantWeight, mode=IN}
+		)}
+	</insert>
+
+    <insert id="moveNode" statementType="CALLABLE">
+		{call moveNavmenuNode(
+		#{ancestorId, mode=IN},
+		#{descendantId, mode=IN}
+		)}
+	</insert>
+
+    <delete id="removeSubtree" statementType="CALLABLE">
+		{call removeNavmenuSubtree(
+		#{nodeId, mode=IN}
+		)}
+	</delete>
+
+    <select id="findDirectAncestor" resultType="map">
+		SELECT
+		t.id,
+		t.name
+		FROM navmenu t
+		WHERE t.id = (SELECT th.ancestor_id
+		FROM navmenu_hierarchy th
+		WHERE depth = 1 AND th.descendant_id = #{descendantId})
+	</select>
+
+    <resultMap id="getNavmenuResultMap" type="map" autoMapping="true">
+        <id column="id" property="id"/>
+        <collection column="{ancestorId=id}" select="findDirectDescendants" ofType="map" javaType="list"
+                    property="descendants" fetchType="eager">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="link" property="link"/>
+            <result column="weight" property="weight"/>
+        </collection>
+    </resultMap>
+
+    <select id="getNavmenu" resultMap="getNavmenuResultMap">
+		SELECT
+		t.id,
+		t.name,
+		t.link,
+		t.weight
+		FROM navmenu t
+		WHERE t.id in (SELECT th.descendant_id
+		FROM navmenu_hierarchy th
+		WHERE depth = 1 AND th.ancestor_id =0)
+		ORDER BY t.weight DESC
+	</select>
+
+    <select id="findDirectDescendants" resultType="map">
+		SELECT
+		t.id,
+		t.name,
+		t.link,
+		t.weight
+		FROM navmenu t
+		WHERE t.id in (SELECT th.descendant_id
+		FROM navmenu_hierarchy th
+		WHERE depth = 1 AND th.ancestor_id =#{ancestorId})
+		ORDER BY t.weight DESC
+	</select>
+</mapper>

@@ -1,0 +1,170 @@
+@charset "utf-8";
+/* CSS Document */
+
+@charset "utf-8";
+/***************
+TsingStone Info&Art Design Studio
+the Academy of Arts & Design, Tsinghua University
+Author:Jason Woo 
+***************/
+div, span, a, li, img, ul {
+    border: 0px;
+    padding: 0px;
+    font-size: 100%;
+    margin: 0px;
+    font-family: inherit;
+    -webkit-font-smoothing: subpixel-antialiased;
+    font-weight: normal;
+}
+
+.content {
+    background: #fff;
+    min-width: 320px;
+}
+
+img {
+    border: 0px;
+    vertical-align: bottom;
+    -ms-interpolation-mode: bicubic;
+}
+
+.day a, .day a:link {
+    text-decoration: none;
+    color: #4F608C;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #5c307d;
+}
+
+ul, li {
+    list-style-type: none;
+}
+
+/*.left {
+	float: left;
+}
+.right {
+	float: right;
+}*/
+
+.clearfix:after {
+    display: block;
+    content: '';
+    clear: both;
+    height: 0px;
+    visibility: hidden;
+}
+
+.yahei {
+    font-family: "\5FAE\8F6F\96C5\9ED1";
+}
+
+.relative {
+    position: relative;
+}
+
+.clearfix {
+    *display: table;
+    *zoom: 1;
+}
+
+.clear {
+    clear: both;
+    overflow: hidden;
+    height: 0;
+}
+
+*::selection {
+    background: #ffc000;
+    color: #FFFFFF;
+    text-shadow: none;
+}
+
+*::-moz-selection {
+    background: #ffc000;
+    color: #FFFFFF;
+    text-shadow: none;
+}
+
+/*comm used header,content,footer*/
+
+.mainWrap {
+    width: 1000px;
+    margin: auto;
+    min-width: 320px;
+}
+
+.content {
+    padding-bottom: 160px;
+}
+
+.content .thuimg {
+    text-align: center;
+}
+
+.content .thuimg .thuimgWrap {
+    min-width: 1000px;
+    overflow: hidden;
+    background: url(../img/loading.gif) no-repeat center center;
+    *height: 400px;
+}
+
+@media screen and (max-width: 800px) {
+
+    body {
+        line-height: 18px;
+    }
+
+    .mainWrap {
+        width: 760px;
+    }
+
+}
+
+@media screen and (max-width: 640px) {
+
+    .mainWrap {
+        width: 100%;
+    }
+
+}
+
+@media screen and (max-width: 360px) {
+    .content {
+        padding-bottom: 30px;
+    }
+
+}
+
+@media screen and (max-width: 320px) {
+
+    .header .logo img {
+        width: 150px;
+    }
+
+    .header .logo {
+        margin-left: -80px;
+    }
+
+    .header .topWrap {
+        height: 110px;
+    }
+
+    .header .search .inp {
+        width: 100px;
+    }
+
+    .header .nav .menu {
+        line-height: 40px;
+        font-size: 16px;
+    }
+
+}
+
+/*action*/
+.fadein {
+    transition: all .3s ease-in;
+}
+

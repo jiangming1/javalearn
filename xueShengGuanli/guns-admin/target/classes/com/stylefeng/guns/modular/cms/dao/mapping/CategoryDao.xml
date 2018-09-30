@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.cms.dao.CategoryDao">
+
+    <sql id="checked_field">
+          (CASE WHEN (t.id IN
+                      (SELECT cp.category_id
+                       FROM category_post cp
+                       WHERE post_id = #{postId}))
+            THEN 'true'
+           ELSE 'false' END
+          )           checked,
+    </sql>
+
+    <select id="tree" resultType="com.stylefeng.guns.core.node.ZTreeNode">
+        SELECT
+        <if test="postId != null">
+            <include refid="checked_field"></include>
+        </if>
+        t.id,
+        th.ancestor_id pId,
+        t.name,
+        'false' isOpen,
+        (SELECT name
+        FROM taxonomy
+        WHERE id = pId) parentName
+        FROM taxonomy_hierarchy th
+        INNER JOIN taxonomy t ON th.descendant_id = t.id
+        WHERE th.depth = 1
+        <if test='descendantName != null and descendantName != ""'>
+            <bind name="descendantName" value="'%'+descendantName+'%'"/>
+            AND t.name like #{descendantName}
+        </if>
+    </select>
+
+    <insert id="addNode" statementType="CALLABLE">
+        {call addTaxonomyNode(
+        #{ancestorId, mode=IN},
+        #{descendantName, mode=IN}
+        )}
+    </insert>
+
+    <insert id="moveNode" statementType="CALLABLE">
+        {call moveTaxonomyNode(
+        #{ancestorId, mode=IN},
+        #{descendantId, mode=IN}
+        )}
+    </insert>
+
+    <delete id="removeSubtree" statementType="CALLABLE">
+       {call removeTaxonomySubtree(
+        #{nodeId, mode=IN}
+        )}
+    </delete>
+
+    <select id="findDirectAncestor" resultType="map">
+        SELECT
+          t.id,
+          t.name
+        FROM taxonomy t
+        WHERE t.id = (SELECT th.ancestor_id
+                      FROM taxonomy_hierarchy th
+                      WHERE depth = 1 AND th.descendant_id = #{descendantId})
+    </select>
+
+    <delete id="unbindPostAndTaxonomy">
+        DELETE FROM taxonomy_post WHERE taxonomy_id = #{taxonomyId}
+    </delete>
+
+</mapper>

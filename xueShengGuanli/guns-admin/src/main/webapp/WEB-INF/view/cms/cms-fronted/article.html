@@ -1,0 +1,71 @@
+@include("/common/_cms-header.html"){}
+
+<script src="http://v3.jiathis.com/code/jia.js"></script>
+
+<div class="wrap-box">
+    <div class="cat-banner-box" style="background:url(${ctxPath}/static/img/cat-banner.png) no-repeat center center;">
+        &nbsp;
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9" style="float:none;margin-left:auto;margin-right: auto;">
+            <div class="clearfix">
+                <p class="text-rightorleft nav-link-line mt-20 mb-40">
+                    <span class="c-gray3">当前位置：</span>
+                    <a href='${ctxPath}' class="c-gray3">首页</a>&gt;
+                    <a href='${ctxPath}/category/${category}/1' class="c-gray3">${category}</a>
+                </p>
+                <section class="text-center section-title">
+                    <h3 class="fs-20">${article.title}</h3>
+                    <h4 class="c-gray1 fs-14">School of Computer Science and Engineering</h4>
+                    <div class="fs-12 c-gray1 pb-8">
+                        <div class="row">
+                            <div class="col-md-6 text-rightorleft">
+                                作者：${article.author} &nbsp;&nbsp;&nbsp;&nbsp;
+                                发布时间：${article.createTime, dateFormat="yyyy-MM-dd"}
+                            </div>
+                            <div class="col-md-6">
+                                <div class="jiathis_style">
+                                            <span class="pull-left">
+                                            分享到：
+                                            </span>
+                                    <a class="jiathis_button_qzone"></a>
+                                    <a class="jiathis_button_tsina"></a>
+                                    <a class="jiathis_button_tqq"></a>
+                                    <a class="jiathis_button_weixin"></a>
+                                    <a class="jiathis_button_renren"></a>
+                                    <a class="jiathis_button_xiaoyou"></a>
+                                    <a href="http://www.jiathis.com/share"
+                                       class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                                    <a class="jiathis_counter_style"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <article class="article1-box">
+                    ${article.content}
+                </article>
+                <hr>
+                <div class="pre-next-record">
+                    @if(prevArticle != null){
+                    <a href='${ctxPath}/${category}/article/${currentPageNum}/${prevArticle.id}' title='${prevArticle.title}' class="fleft pre-record">上一条：${prevArticle.title}</a><br/>
+                    @}
+                    @if(nextArticle != null){
+                    <a href='${ctxPath}/${category}/article/${currentPageNum}/${nextArticle.id}' title='${nextArticle.title}' class="fright next-record">下一条：${nextArticle.title}</a><br/>
+                    @}
+                    @if(isMobile){
+                    <div style="margin-top: 10px; margin-bottom: 10px"></div>
+                    <div><a href="/category/${category}/${currentPageNum}" class="btn btn-default">回到文章列表</a></div>
+                    @}else{
+                    <a href="/category/${category}/${currentPageNum}">回到文章列表</a>
+                    @}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@include("/common/_cms-footer.html"){}

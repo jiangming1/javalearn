@@ -1,0 +1,418 @@
+@include("/common/_cms-header.html"){}
+
+<script src="${ctxPath}/static/modular/cms/cms-fronted/cms-scroll-items.js"></script>
+
+<div class="container">
+    <div id="mycarousel" class="carousel slide myslide">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li class="active"></li>
+            <li></li>
+            <li></li>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox" style="width: 4720px;">
+            @var i=0;
+            @for(bannerMap in bannerList!){
+            @if(i > 4) {break;}
+            <div class="item" style="width: 1180px;">
+                <img src="${ctxPath}/${bannerMap.image}" alt="...">
+                <div class="carousel-caption">
+                    <a href="${bannerMap.link}">${bannerMap.title}</a>
+                </div>
+            </div>
+            @i=i+1;
+            @}
+        </div>
+    </div>
+</div>
+
+<script>
+    function hengshuping() {
+        if (window.orientation == 180 || window.orientation == 0) {
+            window.location.href = window.location.href;
+        }
+        if (window.orientation == 90 || window.orientation == -90) {
+            window.location.href = window.location.href;
+        }
+    }
+
+    if (window.addEventListener) {
+        window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
+    } else if (window.attachEvent) {
+        window.attachEvent("onorientationchange" in window ? "orientationchange" : "resize", hengshuping);
+    }
+    //window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
+
+</script>
+
+<!--#begineditable name="轮换图" viewid="46669" tagname="轮换图" action="" layout="" contype="" stylesysid="" template="" tplstyle="" clone="0" istemp=""-->
+<script>
+    var sliderSource = [
+        @i=0;
+        @for(bannerMap in bannerList!){
+        @if(i > 4) {break;}
+        @if(i < 4){
+            {
+                img: "/${bannerMap.image!}",
+                    txt: "${bannerMap.title!}",
+                url: "${bannerMap.link!}"
+            },
+        @}else{
+            {
+                img: "/${bannerMap.image!}",
+                    txt: "${bannerMap.title!}",
+                url: "${bannerMap.link!}"
+            }
+        @}
+        @i=i+1;
+        @}
+    ];
+
+    var slider = function (options, d) {
+        var defaults = {
+            elmt: "",
+            pause: 4000,
+            speed: 1500
+        }
+        var settings = $.extend(true, {}, defaults, options);
+        var timer, _this = this;
+        init();
+        $(window).resize(function (event) {
+            clearInterval(timer);
+            cacheDom();
+            _this.$wrap.css({'margin-left': 0});
+            render(d);
+            setSlide();
+        });
+
+        function init() {
+            cacheDom();
+            render(d);
+            setSlide();
+            bindEvt();
+        }
+
+        function cacheDom() {
+            _this.$slider = $('#' + settings.elmt),
+                _this.$indicator = _this.$slider.find('.carousel-indicators'),
+                _this.$wrap = _this.$slider.find('.carousel-inner'),
+                _this.$item = _this.$wrap.children('.item'),
+                //_this.$width = _this.$slider.width(),
+                _this.$width = $('.container').width();
+                _this.height=$('.container').height();
+            _this.$page = 1;
+        }
+
+        function render(d) {
+            _this.$wrap.empty();
+            _this.$indicator.empty();
+            for (var i = 0; i < d.length; i++) {
+                var html = '<div class="item">'
+                    + '  <img src="${ctxPath}' + d[i].img + '" alt="...">'
+                    + '  <div class="carousel-caption">'
+                    + '    <a href="${ctxPath}' + d[i].url + '">' + d[i].txt + '</a>'
+                    + '  </div>'
+                    + '</div>';
+                _this.$wrap.append(html);
+                var li = '<li></li>';
+                _this.$indicator.append(li);
+            }
+            ;
+            var fhtml = '<div class="item">'
+                + '  <img src="${ctxPath}' + d[0].img + '" alt="...">'
+                + '  <div class="carousel-caption">'
+                + '    <a href="${ctxPath}' + d[0].url + '">' + d[0].txt + '</a>'
+                + '  </div>'
+                + '</div>';
+            _this.$wrap.append(fhtml);
+            _this.$wrap.css('width', _this.$wrap.width() * _this.$wrap.children().length);
+            _this.$wrap.children('.item').css('width', _this.$width);
+            _this.$wrap.children('.item').eq(0).show();
+            _this.$indicator.children().eq(0).addClass('active');
+        }
+
+        function bindEvt() {
+            // _this.$wrap.hover(function() {
+            //   clearInterval(timer);
+            // }, function() {
+            //   setSlide();
+            // });
+            _this.$indicator.children().on('click', function (event) {
+                event.preventDefault();
+                var i = $(this).index();
+                if (!_this.$wrap.is(':animated')) {
+                    moveTo(i + 1);
+                }
+                ;
+            });
+        }
+
+        function setSlide() {
+            timer = setInterval(function () {
+                if (_this.$page < d.length) {
+                    _this.$wrap.animate({'margin-left': -_this.$width * _this.$page}, settings.speed);
+                    _this.$page++;
+                } else {
+                    _this.$wrap.animate({
+                            'margin-left': -_this.$width * d.length
+                        },
+                        settings.speed, function () {
+                            _this.$wrap.css({'margin-left': 0});
+                        });
+                    _this.$page = 1;
+                }
+                ;
+                _this.$indicator.children().removeClass('active').eq(_this.$page - 1).addClass('active');
+                // console.log(_this.$page);
+            }, settings.pause);
+        }
+
+        function moveTo(idx) {
+            clearInterval(timer);
+            _this.$indicator.children().removeClass('active').eq(idx - 1).addClass('active');
+
+            _this.$wrap.animate({'margin-left': -_this.$width * (idx - 1)}, settings.speed, function () {
+                _this.$page = idx;
+                setSlide();
+            });
+        }
+    }
+
+
+    new slider({
+        pause: 60000,
+        elmt: "mycarousel"
+    }, sliderSource);
+
+</script>
+<!--#endeditable-->
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-sm-4">
+            <p class="page-header">
+                ${newsPanelList[0].name}
+                <small class="text-green text-uppercase">${newsPanelList[0].englishName}</small>
+            </p>
+            <div class="panel-body panel-success">
+                <div id="scroll-div">
+                    <ul class="list-unstyled list" id="scroll-ul">
+                        @for(newsPanelArticleMap in newsPanelArticleList[0]!){
+                        <li>
+                            <a href="${ctxPath}/${newsPanelList[0].category}/article/1/${newsPanelArticleMap.id}" target="_blank"
+                               title="${newsPanelArticleMap.title}">
+                                <span class="info-date">【${newsPanelArticleMap.createTime, dateFormat="yyyy/MM/dd"}】</span>${newsPanelArticleMap.title}</a>
+                        </li>
+                        @}
+                    </ul>
+                </div>
+                <div class="more-footer">
+                    <a href="${ctxPath}/category/${newsPanelList[0].category}/1" target="_blank"
+                       class="pull-left text-grey-more font14"><span
+                            class="icon icon-more"></span> 更多</a>
+                </div>
+            </div>
+        </div>
+        @for(i=1; i < newsPanelList.~size; i++){
+        <div class="col-sm-4">
+            <p class="page-header">
+                ${newsPanelList[i].name}
+                <small class="text-green text-uppercase">${newsPanelList[i].englishName}</small>
+            </p>
+            <div class="panel-body panel-success">
+                <div>
+                    <ul class="list-unstyled list">
+                        @for(newsPanelArticleMap in newsPanelArticleList[i]!){
+                        <li>
+                            <a href="${ctxPath}/${newsPanelList[i].category}/article/1/${newsPanelArticleMap.id}" target="_blank"
+                               title="${newsPanelArticleMap.title}">
+                                <span class="info-date">【${newsPanelArticleMap.createTime, dateFormat="yyyy/MM/dd"}】</span>${newsPanelArticleMap.title}</a>
+                        </li>
+                        @}
+                        <div class="more-footer">
+                            <a href="${ctxPath}/category/${newsPanelList[i].category}/1" target="_blank"
+                               class="pull-left text-grey-more font14"><span
+                                    class="icon icon-more"></span> 更多</a>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        @}
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="page-header">
+                信息化平台
+                <small class="text-green text-uppercase">Info platform</small>
+                <a href="http://jsj.hhtc.edu.cn/index.php/cms/linesituation?id=566" target="_blank"
+                   class="pull-right text-grey font14"><span
+                        class="icon icon-more"></span> 更多</a>
+            </p>
+            <div class="panel-body panel-success">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-3">
+                        <div class="media">
+                            <a href="http://10.22.25.60/WebClass/indexa.php" target="_blank" title="数字化课程教学系统">
+                                <img class="media-object" src="${ctxPath}/static/img/Info-platform-1.jpg"
+                                     alt="数字化课程教学系统">
+                            </a>
+                            <div class="media-body">
+                                <h5 class="text-center mediatitle"><a
+                                        href="http://10.22.25.60/WebClass/indexa.php" target="_blank"
+                                        title="数字化课程教学系统">数字化课程教学系统</a>
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-3">
+                        <div class="media">
+                            <a href="http://10.22.27.60:8080/online2test/" target="_blank" title="怀化学院在线考试系统">
+                                <img class="media-object" src="${ctxPath}/static/img/Info-platform-2.png"
+                                     alt="怀化学院在线考试系统">
+                            </a>
+                            <div class="media-body">
+                                <h5 class="text-center mediatitle"><a href="http://10.22.27.60:8080/online2test/"
+                                                                      target="_blank" title="怀化学院在线考试系统">怀化学院在线考试系统</a>
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-3">
+                        <div class="media">
+                            <a href="http://10.22.4.253:8080/jsjjcll" target="_blank"
+                               title="计算机基础理论教学平台">
+                                <img class="media-object" src="${ctxPath}/static/img/Info-platform-3.png"
+                                     alt="计算机基础理论教学平台">
+                            </a>
+                            <div class="media-body">
+                                <h5 class="text-center mediatitle"><a
+                                        href="http://10.22.4.253:8080/jsjjcll" target="_blank"
+                                        title="计算机基础理论教学平台">计算机基础理论教学平台</a></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-3">
+                        <div class="media">
+                            <a href="http://10.22.25.60:8082/acmhome/welcome.do?method=index" target="_blank"
+                               title="ACM在线评判系统">
+                                <img class="media-object" src="${ctxPath}/static/img/Info-platform-4.png"
+                                     alt="ACM在线评判系统">
+                            </a>
+                            <div class="media-body">
+                                <h5 class="text-center mediatitle"><a
+                                        href="http://10.22.25.60:8082/acmhome/welcome.do?method=index" target="_blank"
+                                        title="ACM在线评判系统">ACM在线评判系统</a></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4 col-md-3 col-lg-4 text-center">
+                <p class="mb30">
+                    <a href='${ctxPath}'>
+                        <svg width="152" height="152">
+                            <image xlink:href="static/img/logo152.svg" src="${ctxPath}/static/img/logo152.png"
+                                   width="152"
+                                   height="152"/>
+                        </svg>
+                    </a>
+                </p>
+            </div>
+
+            <div class="col-sm-8 col-md-5 col-lg-5">
+                <div class="row">
+
+                    <div class="col-xs-4">
+                        <ul class="list-unstyled list">
+                            <li><a href="http://www.ccf.org.cn" target="_blank" title="中国计算机协会">中国计算机协会</a></li>
+                            <li><a href="http://www.icourses.cn/imooc" target="_blank" title="中国大学MOOC">中国大学MOOC</a>
+                            </li>
+                            <li><a href="http://www.jsjds.org" target="_blank" title="大学生计算机设计大赛">大学生计算机设计大赛</a></li>
+                            <li><a href="http://www.jingpinke.com" target="_blank" title="名校公开课">名校公开课</a></li>
+                            <li><a href="http://www.univs.cn" target="_blank" title="中国大学生在线">中国大学生在线</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-xs-4">
+                        <ul class="list-unstyled list">
+                            <li><a href="http://cnki.net" target="_blank" title="中国知网">中国知网</a></li>
+                            <li><a href="http://www.imooc.com/" target="_blank" title="慕课网">慕课网</a></li>
+                            <li><a href="http://www.oschina.net" target="_blank" title="开源中国">开源中国</a></li>
+                            <li><a href="http://git.oschina.net" target="_blank" title="码云">码云</a></li>
+                            <li><a href="https://segmentfault.com" target="_blank" title="Segmentfault">Segmentfault</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-xs-4">
+                        <ul class="list-unstyled list">
+                            <li><a href="http://www.hhtc.edu.cn" target="_blank" title="怀院官网">怀院官网</a></li>
+                            <li><a href="http://220.169.120.11:84" target="_blank" title="怀院图书馆">怀院图书馆</a></li>
+                            <li><a href="http://net.hhtc.edu.cn" target="_blank" title="怀院网络中心">怀院网络中心</a></li>
+                            <li><a href="http://www.briup.com" target="_blank" title="杰普软件">杰普软件</a></li>
+                            <li><a href="http://www.mobiletrain.org" target="_blank" title="千峰教育">千峰教育</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-4 col-lg-3 text-center">
+                <ul class="list-inline pt30">
+                    <li class="toggleCode">
+                        <p>
+                            <a>
+                                <span class="icon icon-wechat"></span>
+                            </a>
+                        </p>
+                        <p>怀院计算机</p>
+                        <div class="codeSpan"><img src="${ctxPath}/static/img/qr-code-hyjsj.jpg" alt="怀院计算机"></div>
+                    </li>
+                    <li class="toggleCode">
+                        <p>
+                            <a>
+                                <span class="icon icon-wechat"></span>
+                            </a>
+                        </p>
+                        <p>怀院计算机校友会</p>
+                        <div class="codeSpan"><img src="${ctxPath}/static/img/qr-code-hyjsjxyh.jpg" alt="怀院计算机校友会">
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+            <script>
+                $(".toggleCode").each(function () {
+                    var code = $(this).find('.codeSpan');
+                    $(this).hover(function () {
+                        code.show();
+                    }, function () {
+                        code.hide();
+                    });
+                })
+
+            </script>
+
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
+
+@include("/common/_cms-footer.html"){}
